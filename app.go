@@ -1,24 +1,20 @@
 package main
 
-import (
-	"fmt"
-
-	"ybuilds.in/taxer/model"
-	"ybuilds.in/taxer/util"
-)
+import "fmt"
 
 func main() {
-	incomes, error := util.Read()
+	prices := []float64{10, 20, 30}
+	taxRates := []float64{0, 0.07, 0.10, 0.15}
 
-	if error != nil {
-		fmt.Println("main() - Error fetching data from util")
+	taxes := make(map[float64][]float64)
+
+	for _, rate := range taxRates {
+		tax := make([]float64, len(prices))
+		for index, price := range prices {
+			tax[index] = price * (rate + 1)
+		}
+		taxes[rate] = tax
 	}
 
-	taxRate := []float64{0, 7, 10, 15}
-
-	for _, i := range taxRate {
-		taxedSalary := model.NewSalary(incomes, i)
-		taxedSalary.Process()
-		taxedSalary.Save()
-	}
+	fmt.Println(taxes)
 }
