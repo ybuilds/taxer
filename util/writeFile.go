@@ -1,5 +1,7 @@
 package util
 
-func write() {
+func Write() error {
+	const path string = "data/tax.json"
 
+	return nil
 }
