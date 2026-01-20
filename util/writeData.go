@@ -6,8 +6,8 @@ import (
 	"os"
 )
 
-func WriteData(filename string, data any) error {
-	var path string = "data/" + filename + ".json"
+func (manager *FileManager) WriteData(data any) error {
+	var path string = fmt.Sprintf("data/output/tax_%v.json", manager.Output)
 	file, err := os.Create(path)
 
 	if err != nil {

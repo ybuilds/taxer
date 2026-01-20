@@ -8,21 +8,23 @@ import (
 )
 
 type TaxJob struct {
-	TaxRate     float64
-	Prices      []float64
-	TaxedPrices map[string]float64
+	TaxRate     float64            `json:"tax_percent"`
+	Prices      []float64          `json:"income"`
+	TaxedPrices map[string]float64 `json:"taxed_income"`
+	Manager     util.FileManager   `json:"-"`
 }
 
-func NewTaxJob(rate float64) *TaxJob {
+func NewTaxJob(rate float64, fileManager util.FileManager) *TaxJob {
 	return &TaxJob{
 		TaxRate: rate,
 		Prices:  []float64{10, 20, 30},
+		Manager: fileManager,
 	}
 }
 
 func (job *TaxJob) Process() {
 	result := make(map[string]float64)
-	prices, err := util.LoadData()
+	prices, err := job.Manager.LoadData()
 
 	if err != nil {
 		fmt.Println("Process() - error fetching prices")
@@ -47,7 +49,7 @@ func (job *TaxJob) Process() {
 	}
 
 	job.TaxedPrices = result
-	err = util.WriteData(fmt.Sprintf("tax-%.0f", job.TaxRate*100), job)
+	err = job.Manager.WriteData(job)
 
 	if err != nil {
 		fmt.Println("Process() - error writing to file")

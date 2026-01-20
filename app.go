@@ -1,12 +1,19 @@
 package main
 
-import "ybuilds.in/taxer/model"
+import (
+	"fmt"
+
+	"ybuilds.in/taxer/model"
+	"ybuilds.in/taxer/util"
+)
 
 func main() {
+	const inputPath string = "data/prices.txt"
 	taxRates := []float64{0, 0.07, 0.10, 0.15}
 
 	for _, rate := range taxRates {
-		job := model.NewTaxJob(rate)
+		fileManager := util.NewFileManager(inputPath, fmt.Sprintf("%.2f", rate*100))
+		job := model.NewTaxJob(rate, *fileManager)
 		job.Process()
 	}
 }

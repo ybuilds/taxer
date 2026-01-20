@@ -8,10 +8,9 @@ import (
 	"strconv"
 )
 
-func LoadData() ([]float64, error) {
+func (manager *FileManager) LoadData() ([]float64, error) {
 	var prices []float64
-	const path string = "data/prices.txt"
-	file, err := os.Open(path)
+	file, err := os.Open(manager.Input)
 
 	if err != nil {
 		fmt.Println("LoadData() - error opening file")
