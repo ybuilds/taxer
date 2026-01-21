@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"time"
 )
 
 func (manager *FileManager) WriteData(data any) error {
@@ -16,6 +17,8 @@ func (manager *FileManager) WriteData(data any) error {
 		err = nil
 		return err
 	}
+
+	time.Sleep(time.Second * 5)
 
 	encoder := json.NewEncoder(file)
 	err = encoder.Encode(data)

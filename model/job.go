@@ -22,7 +22,7 @@ func NewTaxJob(rate float64, fileManager util.FileManager) *TaxJob {
 	}
 }
 
-func (job *TaxJob) Process() {
+func (job *TaxJob) Process(channel chan bool) {
 	result := make(map[string]float64)
 	prices, err := job.Manager.LoadData()
 
@@ -57,4 +57,6 @@ func (job *TaxJob) Process() {
 		err = nil
 		return
 	}
+
+	channel <- true
 }
